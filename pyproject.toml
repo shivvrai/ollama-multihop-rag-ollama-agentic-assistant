@@ -1,13 +1,19 @@
 [project]
-name = "ollama-app"
+name = "ollama-rag"
 version = "0.1.0"
-description = "A RAG app using Ollama with cat facts dataset"
+description = "Local Agentic RAG for Multi-Hop QA using Ollama, HotpotQA, and Streamlit"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "ollama>=0.6.2",
-    "streamlit>=1.59.2",
-    "numpy>=2.5.1",
+    "streamlit>=1.40.0",
+    "numpy>=2.0.0",
     "pandas>=2.0.0",
     "matplotlib>=3.7.0",
+    "datasets>=3.0.0",
+    "rank-bm25>=0.2.2",
+    "sentence-transformers>=3.0.0",
+    "torch>=2.2.0",
+    "tqdm>=4.66.0",
 ]
+

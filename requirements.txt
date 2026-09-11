@@ -1,5 +1,10 @@
 ollama
-pandas
-numpy
-matplotlib
 streamlit
+numpy
+pandas
+matplotlib
+datasets
+rank-bm25
+sentence-transformers
+torch
+tqdm

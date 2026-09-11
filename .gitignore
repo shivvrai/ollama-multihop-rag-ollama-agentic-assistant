@@ -1,5 +1,19 @@
+# Python & Environments
 .venv/
+.uv/
 __pycache__/
 *.pyc
-.uv/
+*.pyo
+
+# Local Large Model Weights & Datasets
+models/
+data/cache/
+data/*.parquet
+data/chat_history.json
+scratch/
+
+# Logs & Temporary Files
+*.log
 .env
+.idea/
+.vscode/

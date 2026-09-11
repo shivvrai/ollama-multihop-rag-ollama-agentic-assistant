@@ -1,0 +1,770 @@
+{
+  "results": {
+    "config_d": [
+      {
+        "question_id": "5a8b57f25542995d1e6f1371",
+        "question": "Were Scott Derrickson and Ed Wood of the same nationality?",
+        "gold_answer": "yes",
+        "gold_titles": [
+          "Ed Wood",
+          "Scott Derrickson"
+        ],
+        "pred_answer": "yes [Passage 2]",
+        "retrieved_titles": [
+          "Scott Derrickson",
+          "Ed Wood",
+          "Ed Wood (film)"
+        ],
+        "exact_match": 1.0,
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "recall_at_3": 1.0,
+        "latency": 56.34022660000119,
+        "trace_details": {
+          "decomposition": {
+            "needs_decomposition": false,
+            "sub_questions": [
+              "Were Scott Derrickson and Ed Wood of the same nationality?"
+            ],
+            "fallback_fired": true,
+            "raw_output": "{\n  \"needs_decomposition\": false,\n  \"sub_questions\": []\n}"
+          },
+          "sub_traces": [
+            {
+              "sub_question": "Were Scott Derrickson and Ed Wood of the same nationality?",
+              "route_strategy": "bm25",
+              "route_reason": "Detected named entities, dates, or numbers favoring exact keyword matching",
+              "route_features": [
+                "entities: ['Derrickson', 'Ed', 'Wood']"
+              ],
+              "retrieved_candidates": [
+                [
+                  1,
+                  0.03252247488101534
+                ],
+                [
+                  0,
+                  0.032018442622950824
+                ],
+                [
+                  4,
+                  0.03200204813108039
+                ],
+                [
+                  8,
+                  0.031024531024531024
+                ],
+                [
+                  2,
+                  0.031009615384615385
+                ],
+                [
+                  7,
+                  0.030536130536130537
+                ],
+                [
+                  9,
+                  0.029631255487269532
+                ],
+                [
+                  5,
+                  0.029418126757516764
+                ],
+                [
+                  6,
+                  0.02919863597612958
+                ],
+                [
+                  3,
+                  0.02857142857142857
+                ]
+              ],
+              "reranked_candidates": [
+                [
+                  1,
+                  5.73020076751709
+                ],
+                [
+                  4,
+                  4.172555923461914
+                ],
+                [
+                  0,
+                  2.7235641479492188
+                ]
+              ],
+              "reformulated_queries": [
+                "Scott Derrickson nationality Ed Wood",
+                "Scott Derrickson nationality Ed Wood"
+              ],
+              "retry_count": 2,
+              "grader_attempts": [
+                {
+                  "attempt": 1,
+                  "sufficient": false,
+                  "reason": "Malformed JSON from grader; defaulted to insufficient to trigger retry",
+                  "fallback_fired": true,
+                  "is_malformed": true,
+                  "raw_output": "{\n  \"sufficient\": true,\n  \"reason\": The evidence contains sufficient factual information to determine that Scott Derrickson and Ed Wood were both American filmmakers."
+                },
+                {
+                  "attempt": 2,
+                  "sufficient": false,
+                  "reason": "Malformed JSON from grader; defaulted to insufficient to trigger retry",
+                  "fallback_fired": true,
+                  "is_malformed": true,
+                  "raw_output": "{\n  \"sufficient\": true,\n  \"reason\": The evidence contains sufficient factual information to answer the question accurately, as both Scott Derrickson and Ed Wood are identified as American in their respective passages."
+                },
+                {
+                  "attempt": 3,
+                  "sufficient": true,
+                  "reason": "Malformed JSON on final retry limit; defaulted to sufficient to terminate loop",
+                  "fallback_fired": true,
+                  "is_malformed": true,
+                  "raw_output": "{\n  \"sufficient\": true,\n  \"reason\": The evidence contains sufficient factual information to answer the question accurately, as both Scott Derrickson and Ed Wood are identified as American in their respective passages."
+                }
+              ]
+            }
+          ],
+          "synthesis": {
+            "answer": "yes [Passage 2]",
+            "cited_passages": [
+              "Passage 2"
+            ],
+            "raw_output": "yes [Passage 2]"
+          }
+        }
+      },
+      {
+        "question_id": "5a8c7595554299585d9e36b6",
+        "question": "What government position was held by the woman who portrayed Corliss Archer in the film Kiss and Tell?",
+        "gold_answer": "Chief of Protocol",
+        "gold_titles": [
+          "Shirley Temple",
+          "Kiss and Tell (1945 film)"
+        ],
+        "pred_answer": "Voice Actress [Passage 3]",
+        "retrieved_titles": [
+          "Kiss and Tell (1945 film)",
+          "A Kiss for Corliss",
+          "Janet Waldo"
+        ],
+        "exact_match": 0.0,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "recall_at_3": 0.5,
+        "latency": 28.276056400001835,
+        "trace_details": {
+          "decomposition": {
+            "needs_decomposition": false,
+            "sub_questions": [
+              "Who portrayed Corliss Archer in the film Kiss and Tell?"
+            ],
+            "fallback_fired": false,
+            "raw_output": "{\n  \"needs_decomposition\": false,\n  \"sub_questions\": [\"Who portrayed Corliss Archer in the film Kiss and Tell?\" ]\n}"
+          },
+          "sub_traces": [
+            {
+              "sub_question": "Who portrayed Corliss Archer in the film Kiss and Tell?",
+              "route_strategy": "bm25",
+              "route_reason": "Detected named entities, dates, or numbers favoring exact keyword matching",
+              "route_features": [
+                "dates: ['2005']",
+                "numbers: ['2005']"
+              ],
+              "retrieved_candidates": [
+                [
+                  6,
+                  0.03278688524590164
+                ],
+                [
+                  5,
+                  0.03225806451612903
+                ],
+                [
+                  1,
+                  0.031024531024531024
+                ],
+                [
+                  2,
+                  0.031009615384615385
+                ],
+                [
+                  3,
+                  0.031009615384615385
+                ],
+                [
+                  0,
+                  0.03057889822595705
+                ],
+                [
+                  9,
+                  0.029850746268656716
+                ],
+                [
+                  8,
+                  0.029437229437229435
+                ],
+                [
+                  7,
+                  0.028991596638655463
+                ],
+                [
+                  4,
+                  0.028985507246376812
+                ]
+              ],
+              "reranked_candidates": [
+                [
+                  6,
+                  7.067538261413574
+                ],
+                [
+                  5,
+                  4.886197090148926
+                ],
+                [
+                  2,
+                  3.170963764190674
+                ]
+              ],
+              "reformulated_queries": [
+                "who portrayed corliss archer in kiss and tell 2005",
+                "who portrayed corliss archer in kiss and tell 2005"
+              ],
+              "retry_count": 2,
+              "grader_attempts": [
+                {
+                  "attempt": 1,
+                  "sufficient": false,
+                  "reason": "The evidence does not mention who portrayed Corliss Archer in the film Kiss and Tell",
+                  "fallback_fired": false,
+                  "is_malformed": false,
+                  "raw_output": "{\n  \"sufficient\": false,\n  \"reason\": \"The evidence does not mention who portrayed Corliss Archer in the film Kiss and Tell\"\n}"
+                },
+                {
+                  "attempt": 2,
+                  "sufficient": false,
+                  "reason": "The evidence does not mention who portrayed Corliss Archer in the film Kiss and Tell",
+                  "fallback_fired": false,
+                  "is_malformed": false,
+                  "raw_output": "{\n  \"sufficient\": false,\n  \"reason\": \"The evidence does not mention who portrayed Corliss Archer in the film Kiss and Tell\"\n}"
+                },
+                {
+                  "attempt": 3,
+                  "sufficient": false,
+                  "reason": "The evidence does not mention who portrayed Corliss Archer in the film Kiss and Tell",
+                  "fallback_fired": false,
+                  "is_malformed": false,
+                  "raw_output": "{\n  \"sufficient\": false,\n  \"reason\": \"The evidence does not mention who portrayed Corliss Archer in the film Kiss and Tell\"\n}"
+                }
+              ]
+            }
+          ],
+          "synthesis": {
+            "answer": "Voice Actress [Passage 3]",
+            "cited_passages": [
+              "Passage 3"
+            ],
+            "raw_output": "Voice Actress [Passage 3]"
+          }
+        }
+      },
+      {
+        "question_id": "5a85ea095542994775f606a8",
+        "question": "What science fantasy young adult series, told in first person, has a set of companion books narrating the stories of enslaved worlds and alien species?",
+        "gold_answer": "Animorphs",
+        "gold_titles": [
+          "Animorphs",
+          "The Hork-Bajir Chronicles"
+        ],
+        "pred_answer": "Animorphs \n[Passage 1]\nThe Hork-Bajir Chronicles \n[Passage 4]",
+        "retrieved_titles": [
+          "Animorphs",
+          "Shadowshaper",
+          "Victoria Hanley",
+          "The Hork-Bajir Chronicles",
+          "List of Square Enix companion books"
+        ],
+        "exact_match": 0.0,
+        "f1": 0.5,
+        "precision": 0.3333333333333333,
+        "recall": 1.0,
+        "recall_at_3": 1.0,
+        "latency": 71.03096000000005,
+        "trace_details": {
+          "decomposition": {
+            "needs_decomposition": false,
+            "sub_questions": [
+              "What is the name of the science fantasy young adult series?",
+              "What are the names of the companion books narrating the stories of enslaved worlds and alien species?"
+            ],
+            "fallback_fired": false,
+            "raw_output": "{\n  \"needs_decomposition\": false,\n  \"sub_questions\": [\"What is the name of the science fantasy young adult series?\", \"What are the names of the companion books narrating the stories of enslaved worlds and alien species?\" ]\n}"
+          },
+          "sub_traces": [
+            {
+              "sub_question": "What is the name of the science fantasy young adult series?",
+              "route_strategy": "bm25",
+              "route_reason": "Detected named entities, dates, or numbers favoring exact keyword matching",
+              "route_features": [
+                "entities: ['Leigh', 'Bardugo', 'Grisha']"
+              ],
+              "retrieved_candidates": [
+                [
+                  8,
+                  0.032266458495966696
+                ],
+                [
+                  3,
+                  0.03225806451612903
+                ],
+                [
+                  0,
+                  0.03177805800756621
+                ],
+                [
+                  9,
+                  0.03125763125763126
+                ],
+                [
+                  1,
+                  0.03125
+                ],
+                [
+                  6,
+                  0.03007688828584351
+                ],
+                [
+                  7,
+                  0.03007688828584351
+                ],
+                [
+                  4,
+                  0.029411764705882353
+                ],
+                [
+                  5,
+                  0.028985507246376812
+                ],
+                [
+                  2,
+                  0.02857142857142857
+                ]
+              ],
+              "reranked_candidates": [
+                [
+                  8,
+                  -2.7011303901672363
+                ],
+                [
+                  3,
+                  -4.338935852050781
+                ],
+                [
+                  1,
+                  -4.374293327331543
+                ]
+              ],
+              "reformulated_queries": [
+                "What 2020s science fantasy young adult novel series by Sarah J. Maas features a human girl with supernatural abilities?",
+                "What 2020s science fantasy young adult novel series by Leigh Bardugo features a Grisha magic system?"
+              ],
+              "retry_count": 2,
+              "grader_attempts": [
+                {
+                  "attempt": 1,
+                  "sufficient": false,
+                  "reason": "The evidence does not contain sufficient information to identify the science fantasy young adult series as it is described in the question",
+                  "fallback_fired": false,
+                  "is_malformed": false,
+                  "raw_output": "{\n  \"sufficient\": false,\n  \"reason\": \"The evidence does not contain sufficient information to identify the science fantasy young adult series as it is described in the question\"\n}"
+                },
+                {
+                  "attempt": 2,
+                  "sufficient": false,
+                  "reason": "The evidence does not contain information on the name of the science fantasy young adult series",
+                  "fallback_fired": false,
+                  "is_malformed": false,
+                  "raw_output": "{\n  \"sufficient\": false,\n  \"reason\": \"The evidence does not contain information on the name of the science fantasy young adult series\"\n}"
+                },
+                {
+                  "attempt": 3,
+                  "sufficient": false,
+                  "reason": "The evidence does not contain information about a specific science fantasy young adult series, only mentions authors and books that may or may not fit the genre",
+                  "fallback_fired": false,
+                  "is_malformed": false,
+                  "raw_output": "{\n  \"sufficient\": false,\n  \"reason\": \"The evidence does not contain information about a specific science fantasy young adult series, only mentions authors and books that may or may not fit the genre\"\n}"
+                }
+              ]
+            },
+            {
+              "sub_question": "What are the names of the companion books narrating the stories of enslaved worlds and alien species?",
+              "route_strategy": "bm25",
+              "route_reason": "Detected named entities, dates, or numbers favoring exact keyword matching",
+              "route_features": [
+                "entities: ['Star', 'Wars']"
+              ],
+              "retrieved_candidates": [
+                [
+                  5,
+                  0.03278688524590164
+                ],
+                [
+                  2,
+                  0.03225806451612903
+                ],
+                [
+                  8,
+                  0.03125763125763126
+                ],
+                [
+                  7,
+                  0.031024531024531024
+                ],
+                [
+                  6,
+                  0.030776515151515152
+                ],
+                [
+                  4,
+                  0.030309988518943745
+                ],
+                [
+                  1,
+                  0.030117753623188408
+                ],
+                [
+                  3,
+                  0.029418126757516764
+                ],
+                [
+                  0,
+                  0.029411764705882353
+                ],
+                [
+                  9,
+                  0.02857142857142857
+                ]
+              ],
+              "reranked_candidates": [
+                [
+                  2,
+                  -0.7218684554100037
+                ],
+                [
+                  5,
+                  -4.155854225158691
+                ],
+                [
+                  1,
+                  -5.956646919250488
+                ]
+              ],
+              "reformulated_queries": [
+                "What are the names of the Star Wars companion books that explore enslaved worlds and alien species?",
+                "What are the names of the Star Wars companion books that explore enslaved worlds and alien species?"
+              ],
+              "retry_count": 2,
+              "grader_attempts": [
+                {
+                  "attempt": 1,
+                  "sufficient": false,
+                  "reason": "The evidence does not contain specific names of companion books narrating the stories of enslaved worlds and alien species",
+                  "fallback_fired": false,
+                  "is_malformed": false,
+                  "raw_output": "{\n  \"sufficient\": false,\n  \"reason\": \"The evidence does not contain specific names of companion books narrating the stories of enslaved worlds and alien species\"\n}"
+                },
+                {
+                  "attempt": 2,
+                  "sufficient": false,
+                  "reason": "The evidence does not contain specific names of companion books narrating the stories of enslaved worlds and alien species",
+                  "fallback_fired": false,
+                  "is_malformed": false,
+                  "raw_output": "{\n  \"sufficient\": false,\n  \"reason\": \"The evidence does not contain specific names of companion books narrating the stories of enslaved worlds and alien species\"\n}"
+                },
+                {
+                  "attempt": 3,
+                  "sufficient": false,
+                  "reason": "The evidence does not contain specific names of companion books narrating the stories of enslaved worlds and alien species",
+                  "fallback_fired": false,
+                  "is_malformed": false,
+                  "raw_output": "{\n  \"sufficient\": false,\n  \"reason\": \"The evidence does not contain specific names of companion books narrating the stories of enslaved worlds and alien species\"\n}"
+                }
+              ]
+            }
+          ],
+          "synthesis": {
+            "answer": "Animorphs \n[Passage 1]\nThe Hork-Bajir Chronicles \n[Passage 4]",
+            "cited_passages": [
+              "Passage 1",
+              "Passage 4"
+            ],
+            "raw_output": "Animorphs \n[Passage 1]\nThe Hork-Bajir Chronicles \n[Passage 4]"
+          }
+        }
+      },
+      {
+        "question_id": "5adbf0a255429947ff17385a",
+        "question": "Are the Laleli Mosque and Esma Sultan Mansion located in the same neighborhood?",
+        "gold_answer": "no",
+        "gold_titles": [
+          "Laleli Mosque",
+          "Esma Sultan Mansion"
+        ],
+        "pred_answer": "No [Passage 2]",
+        "retrieved_titles": [
+          "Laleli Mosque",
+          "Esma Sultan Mansion",
+          "Sultan Ahmed Mosque"
+        ],
+        "exact_match": 1.0,
+        "f1": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "recall_at_3": 1.0,
+        "latency": 19.417634800000087,
+        "trace_details": {
+          "decomposition": {
+            "needs_decomposition": false,
+            "sub_questions": [
+              "Are the Laleli Mosque and Esma Sultan Mansion located in Istanbul?"
+            ],
+            "fallback_fired": false,
+            "raw_output": "{\n  \"needs_decomposition\": false,\n  \"sub_questions\": [\"Are the Laleli Mosque and Esma Sultan Mansion located in Istanbul?\" ]\n}"
+          },
+          "sub_traces": [
+            {
+              "sub_question": "Are the Laleli Mosque and Esma Sultan Mansion located in Istanbul?",
+              "route_strategy": "bm25",
+              "route_reason": "Detected named entities, dates, or numbers favoring exact keyword matching",
+              "route_features": [
+                "entities: ['Laleli', 'Mosque', 'Esma']"
+              ],
+              "retrieved_candidates": [
+                [
+                  5,
+                  8.010252952575684
+                ],
+                [
+                  6,
+                  7.4441142082214355
+                ],
+                [
+                  4,
+                  4.685334205627441
+                ],
+                [
+                  1,
+                  3.8585081100463867
+                ],
+                [
+                  0,
+                  2.5116453170776367
+                ],
+                [
+                  3,
+                  2.507045269012451
+                ],
+                [
+                  9,
+                  2.4898149967193604
+                ],
+                [
+                  8,
+                  2.3769619464874268
+                ],
+                [
+                  7,
+                  2.114694356918335
+                ],
+                [
+                  2,
+                  1.7652103900909424
+                ]
+              ],
+              "reranked_candidates": [
+                [
+                  5,
+                  7.1704511642456055
+                ],
+                [
+                  6,
+                  7.0833539962768555
+                ],
+                [
+                  4,
+                  2.9406750202178955
+                ]
+              ],
+              "reformulated_queries": [],
+              "retry_count": 0,
+              "grader_attempts": [
+                {
+                  "attempt": 1,
+                  "sufficient": true,
+                  "reason": "The retrieved evidence passages contain sufficient factual information about the locations of the Laleli Mosque and Esma Sultan Mansion in Istanbul.",
+                  "fallback_fired": false,
+                  "is_malformed": false,
+                  "raw_output": "{\n  \"sufficient\": true,\n  \"reason\": The retrieved evidence passages contain sufficient factual information about the locations of the Laleli Mosque and Esma Sultan Mansion in Istanbul.\n}"
+                }
+              ]
+            }
+          ],
+          "synthesis": {
+            "answer": "No [Passage 2]",
+            "cited_passages": [
+              "Passage 2"
+            ],
+            "raw_output": "No [Passage 2]"
+          }
+        }
+      },
+      {
+        "question_id": "5a8e3ea95542995a26add48d",
+        "question": "The director of the romantic comedy \"Big Stone Gap\" is based in what New York city?",
+        "gold_answer": "Greenwich Village, New York City",
+        "gold_titles": [
+          "Adriana Trigiani",
+          "Big Stone Gap (film)"
+        ],
+        "pred_answer": "Brooklyn [Passage 2]",
+        "retrieved_titles": [
+          "Big Stone Gap (film)",
+          "Kingston Morning",
+          "Great Eastern Conventions"
+        ],
+        "exact_match": 0.0,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "recall_at_3": 0.5,
+        "latency": 44.84187159999783,
+        "trace_details": {
+          "decomposition": {
+            "needs_decomposition": false,
+            "sub_questions": [
+              "What is the name of the New York city where the director of 'Big Stone Gap' is based?"
+            ],
+            "fallback_fired": false,
+            "raw_output": "{\n  \"needs_decomposition\": false,\n  \"sub_questions\": [\"What is the name of the New York city where the director of 'Big Stone Gap' is based?\"]\n}"
+          },
+          "sub_traces": [
+            {
+              "sub_question": "What is the name of the New York city where the director of 'Big Stone Gap' is based?",
+              "route_strategy": "bm25",
+              "route_reason": "Detected named entities, dates, or numbers favoring exact keyword matching",
+              "route_features": [
+                "entities: ['NYC', 'Michael', 'Showalter']"
+              ],
+              "retrieved_candidates": [
+                [
+                  9,
+                  0.03278688524590164
+                ],
+                [
+                  4,
+                  0.031754032258064516
+                ],
+                [
+                  5,
+                  0.03125763125763126
+                ],
+                [
+                  2,
+                  0.031054405392392875
+                ],
+                [
+                  8,
+                  0.031009615384615385
+                ],
+                [
+                  6,
+                  0.03057889822595705
+                ],
+                [
+                  1,
+                  0.030303030303030304
+                ],
+                [
+                  7,
+                  0.029631255487269532
+                ],
+                [
+                  0,
+                  0.02877846790890269
+                ],
+                [
+                  3,
+                  0.02877846790890269
+                ]
+              ],
+              "reranked_candidates": [
+                [
+                  9,
+                  3.3818626403808594
+                ],
+                [
+                  1,
+                  -2.217364549636841
+                ],
+                [
+                  4,
+                  -6.711385726928711
+                ]
+              ],
+              "reformulated_queries": [
+                "What is the name of the New York City where John Goldwyn is based?",
+                "What is the name of the NYC borough where Michael Showalter directed Big Stone Gap?"
+              ],
+              "retry_count": 2,
+              "grader_attempts": [
+                {
+                  "attempt": 1,
+                  "sufficient": false,
+                  "reason": "The evidence does not contain information about a specific New York City where the director of 'Big Stone Gap' is based",
+                  "fallback_fired": false,
+                  "is_malformed": false,
+                  "raw_output": "{\n  \"sufficient\": false,\n  \"reason\": \"The evidence does not contain information about a specific New York City where the director of 'Big Stone Gap' is based\"\n}"
+                },
+                {
+                  "attempt": 2,
+                  "sufficient": false,
+                  "reason": "The evidence does not contain information about the director of 'Big Stone Gap' or their specific location within New York City",
+                  "fallback_fired": false,
+                  "is_malformed": false,
+                  "raw_output": "{\n  \"sufficient\": false,\n  \"reason\": \"The evidence does not contain information about the director of 'Big Stone Gap' or their specific location within New York City\"\n}"
+                },
+                {
+                  "attempt": 3,
+                  "sufficient": false,
+                  "reason": "The evidence does not mention a specific New York city where the director of 'Big Stone Gap' is based",
+                  "fallback_fired": false,
+                  "is_malformed": false,
+                  "raw_output": "{\n  \"sufficient\": false,\n  \"reason\": \"The evidence does not mention a specific New York city where the director of 'Big Stone Gap' is based\"\n}"
+                }
+              ]
+            }
+          ],
+          "synthesis": {
+            "answer": "Brooklyn [Passage 2]",
+            "cited_passages": [
+              "Passage 2"
+            ],
+            "raw_output": "Brooklyn [Passage 2]"
+          }
+        }
+      }
+    ]
+  },
+  "reliability": {
+    "total_decomp_calls": 5,
+    "malformed_decomp_calls": 1,
+    "total_grader_calls": 16,
+    "malformed_grader_calls": 3,
+    "questions_at_retry_cap": 3,
+    "total_config_d_questions": 5
+  }
+}
