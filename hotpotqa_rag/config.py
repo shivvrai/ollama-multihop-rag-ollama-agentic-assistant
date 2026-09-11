@@ -14,10 +14,54 @@ DATA_DIR.mkdir(exist_ok=True)
 RESULTS_DIR.mkdir(parents=True, exist_ok=True)
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
 
+def get_ollama_base_url() -> str:
+    """Retrieve Ollama host from env vars, Streamlit secrets, or local default."""
+    if "OLLAMA_HOST" in os.environ and os.environ["OLLAMA_HOST"].strip():
+        return os.environ["OLLAMA_HOST"].strip().rstrip("/")
+    try:
+        import streamlit as st
+        if hasattr(st, "secrets") and "OLLAMA_HOST" in st.secrets:
+            return str(st.secrets["OLLAMA_HOST"]).strip().rstrip("/")
+    except Exception:
+        pass
+    return "http://127.0.0.1:11434"
+
+
+def set_ollama_base_url(url: str):
+    """Dynamically update the active Ollama host at runtime."""
+    global OLLAMA_BASE_URL
+    clean = url.strip().rstrip("/")
+    if clean:
+        OLLAMA_BASE_URL = clean
+        os.environ["OLLAMA_HOST"] = clean
+
+
+def check_ollama_connection(host: str = None, timeout: float = 3.0) -> tuple[bool, str, list[str]]:
+    """Fast healthcheck for Ollama host.
+    
+    Returns:
+        (is_connected, message, available_models)
+    """
+    import urllib.request
+    import json
+    target = host or get_ollama_base_url()
+    try:
+        url = f"{target.rstrip('/')}/api/tags"
+        req = urllib.request.Request(url, headers={"User-Agent": "AgenticRAG-HealthCheck"})
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            if resp.status == 200:
+                data = json.loads(resp.read().decode("utf-8"))
+                models = [m.get("name", "").split(":")[0] for m in data.get("models", [])]
+                return True, "Connected", models
+            return False, f"HTTP {resp.status}", []
+    except Exception as e:
+        return False, str(e), []
+
+
 # Ollama Models
 LANGUAGE_MODEL = os.environ.get("OLLAMA_LLM", "llama3.2")
 EMBEDDING_MODEL = os.environ.get("OLLAMA_EMBED", "nomic-embed-text")
-OLLAMA_BASE_URL = os.environ.get("OLLAMA_HOST", "http://127.0.0.1:11434")
+OLLAMA_BASE_URL = get_ollama_base_url()
 
 # Cross-Encoder Reranker
 LOCAL_CROSS_ENCODER_PATH = PROJECT_ROOT / "models" / "ms-marco-MiniLM-L-6-v2"

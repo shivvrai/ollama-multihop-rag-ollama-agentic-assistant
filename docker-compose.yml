@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  # Local Ollama LLM Service
+  ollama:
+    image: ollama/ollama:latest
+    container_name: agentic_rag_ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_storage:/root/.ollama
+    restart: unless-stopped
+
+  # Streamlit ChatGPT-Style Agentic UI
+  web:
+    build: .
+    container_name: agentic_rag_ui
+    ports:
+      - "8501:8501"
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+      - OLLAMA_LLM=llama3.2
+      - OLLAMA_EMBED=nomic-embed-text
+    depends_on:
+      - ollama
+    restart: unless-stopped
+
+volumes:
+  ollama_storage:

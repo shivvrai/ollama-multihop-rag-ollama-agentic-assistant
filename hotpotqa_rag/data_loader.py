@@ -90,15 +90,24 @@ def load_hotpotqa_subset(
         with open(cache_path, "rb") as f:
             return pickle.load(f)
 
+    sample_json = CACHE_DIR.parent / "sample_questions.json"
     local_parquet = CACHE_DIR.parent / "validation.parquet"
     if local_parquet.exists() and local_parquet.stat().st_size > 20_000_000:
         logger.info(f"Loading HotpotQA from local parquet: {local_parquet}...")
         from datasets import Dataset
         ds = Dataset.from_parquet(str(local_parquet))
     else:
-        logger.info(f"Downloading/loading HotpotQA ({DATASET_CONFIG}) split='{DATASET_SPLIT}' from Hugging Face...")
-        from datasets import load_dataset
-        ds = load_dataset(DATASET_NAME, data_files={"validation": "distractor/validation-00000-of-00001.parquet"}, split=DATASET_SPLIT)
+        try:
+            logger.info(f"Downloading/loading HotpotQA ({DATASET_CONFIG}) split='{DATASET_SPLIT}' from Hugging Face...")
+            from datasets import load_dataset
+            ds = load_dataset(DATASET_NAME, data_files={"validation": "distractor/validation-00000-of-00001.parquet"}, split=DATASET_SPLIT)
+        except Exception as e:
+            if sample_json.exists():
+                logger.warning(f"Could not reach Hugging Face ({e}). Falling back to bundled {sample_json}...")
+                with open(sample_json, "r", encoding="utf-8") as f:
+                    cached_data = json.load(f)
+                return [HotpotQuestion.from_dict(d) for d in cached_data[:subset_size]]
+            raise e
     logger.info(f"Loaded {len(ds)} raw samples. Slicing first {subset_size}...")
 
 

@@ -29,6 +29,9 @@ from hotpotqa_rag.config import (
     EMBEDDING_MODEL,
     CROSS_ENCODER_MODEL,
     EVAL_SUBSET_SIZE,
+    get_ollama_base_url,
+    set_ollama_base_url,
+    check_ollama_connection,
 )
 from hotpotqa_rag.data_loader import load_hotpotqa_subset, HotpotQuestion
 from hotpotqa_rag.indexer import build_question_index, QuestionIndex
@@ -145,9 +148,10 @@ def get_cached_dataset():
 
 
 @st.cache_resource(show_spinner="Initializing Agentic Reasoning Engine...")
-def get_pipeline():
+def get_pipeline(host_url: str):
     """Initialize Agentic RAG pipeline instance."""
-    return AgenticRAGPipeline(model=LANGUAGE_MODEL)
+    client = ollama.Client(host=host_url)
+    return AgenticRAGPipeline(client=client, model=LANGUAGE_MODEL)
 
 
 @st.cache_resource(show_spinner="Indexing multi-hop reasoning questions...")
@@ -166,13 +170,16 @@ if "active_question" not in st.session_state:
     st.session_state.active_question = None
 if "active_index" not in st.session_state:
     st.session_state.active_index = None
+if "custom_ollama_host" not in st.session_state:
+    st.session_state.custom_ollama_host = get_ollama_base_url()
 
 # Initialize resources
+active_host = st.session_state.custom_ollama_host
 try:
     hotpot_dataset = get_cached_dataset()
 except Exception:
     hotpot_dataset = []
-pipeline = get_pipeline()
+pipeline = get_pipeline(active_host)
 question_matcher = get_question_matcher(hotpot_dataset)
 
 
@@ -287,9 +294,39 @@ with st.sidebar:
 
     st.divider()
 
-    # 4. Storage & Status
+    # 4. Remote Ollama & Cloud Deployment
+    st.markdown("#### 🌐 Cloud & Deployment")
+    is_connected, status_msg, available_models = check_ollama_connection(active_host, timeout=2.5)
+
+    if is_connected:
+        st.success(f"🟢 **Ollama Connected**\n`{active_host}`")
+    else:
+        st.error(f"🔴 **Ollama Unreachable**\n`{active_host}`")
+
+    with st.expander("⚙️ Server & Tunnel Settings", expanded=False):
+        new_host_val = st.text_input(
+            "Ollama Host Endpoint:",
+            value=active_host,
+            help="Local or remote URL (e.g. https://xyz.trycloudflare.com or http://127.0.0.1:11434)",
+        )
+        if new_host_val.strip() and new_host_val.strip() != active_host:
+            clean_host = new_host_val.strip().rstrip("/")
+            st.session_state.custom_ollama_host = clean_host
+            set_ollama_base_url(clean_host)
+            get_pipeline.clear()
+            st.rerun()
+
+        st.caption(
+            "**Deploying on Streamlit Community Cloud?**\n"
+            "1. Run on your Ollama host: `cloudflared tunnel --url http://localhost:11434`\n"
+            "2. Paste the URL above or set `OLLAMA_HOST` in Streamlit Cloud Secrets."
+        )
+
+    st.divider()
+
+    # 5. Storage & Status
     st.caption("⚙️ **System Specs**")
-    st.caption(f"- Model: `{LANGUAGE_MODEL}` (Ollama)")
+    st.caption(f"- Model: `{LANGUAGE_MODEL}`")
     st.caption(f"- Embeddings: `{EMBEDDING_MODEL}`")
     st.caption(f"- Reranker: `ms-marco-MiniLM-L-6-v2`")
     st.caption(f"- Context Memory: Enabled (Last 10 turns)")
@@ -366,6 +403,17 @@ if prompt:
         save_chat_history(st.session_state.messages)
 
     else:
+        # Verify Ollama connection before invoking LLM
+        if not is_connected:
+            with st.chat_message("assistant"):
+                st.error(
+                    f"⚠️ **Cannot reach Ollama at `{active_host}`**\n\n"
+                    "• **Local Run:** Ensure Ollama is running (`ollama serve`).\n"
+                    "• **Streamlit Cloud:** Connect via a public tunnel (e.g. `cloudflared tunnel --url http://localhost:11434`) "
+                    "and enter the URL in the sidebar under **Cloud & Deployment**."
+                )
+            st.stop()
+
         # 3. Check for Multi-Hop Agent Target
         # If user explicitly loaded a question, or if query matches benchmark puzzle:
         target_benchmark_q = None
@@ -391,22 +439,27 @@ if prompt:
                         current_index = build_question_index(target_benchmark_q, client=pipeline.client)
                         st.session_state.active_index = current_index
 
-                # Execute RAG Pipeline
-                with st.spinner("Analyzing clues, reranking evidence, and synthesizing answer..."):
-                    trace = pipeline.run(prompt, current_index, config=active_config)
+                # Execute RAG Pipeline with error guard
+                reasoning_data = None
+                try:
+                    with st.spinner("Analyzing clues, reranking evidence, and synthesizing answer..."):
+                        trace = pipeline.run(prompt, current_index, config=active_config)
 
-                assistant_answer = trace.synthesis.answer
-                st.markdown(assistant_answer)
+                    assistant_answer = trace.synthesis.answer
+                    st.markdown(assistant_answer)
 
-                # Format reasoning data for the drawer
-                reasoning_data = {
-                    "config_name": trace.config_name,
-                    "latency": trace.latency_seconds,
-                    "sub_questions": trace.decomposition.sub_questions if trace.decomposition else [],
-                    "evidence_titles": trace.final_evidence_titles,
-                    "citations": trace.synthesis.cited_passages,
-                }
-                render_reasoning_expander(reasoning_data)
+                    # Format reasoning data for the drawer
+                    reasoning_data = {
+                        "config_name": trace.config_name,
+                        "latency": trace.latency_seconds,
+                        "sub_questions": trace.decomposition.sub_questions if trace.decomposition else [],
+                        "evidence_titles": trace.final_evidence_titles,
+                        "citations": trace.synthesis.cited_passages,
+                    }
+                    render_reasoning_expander(reasoning_data)
+                except Exception as e:
+                    assistant_answer = f"⚠️ Reasoning error: {e}"
+                    st.error(assistant_answer)
 
             st.session_state.messages.append({
                 "role": "assistant",
@@ -434,10 +487,14 @@ if prompt:
                     if m.get("role") in ("user", "assistant") and m.get("content"):
                         context_messages.append({"role": m["role"], "content": m["content"]})
 
-                # Stream response live token by token!
-                assistant_response = st.write_stream(
-                    stream_llm(context_messages, pipeline.client, model=pipeline.model)
-                )
+                # Stream response live token by token with error guard
+                try:
+                    assistant_response = st.write_stream(
+                        stream_llm(context_messages, pipeline.client, model=pipeline.model)
+                    )
+                except Exception as e:
+                    assistant_response = f"⚠️ Communication error with Ollama (`{active_host}`): {e}"
+                    st.error(assistant_response)
                 elapsed = time.perf_counter() - t0
 
             st.session_state.messages.append({
@@ -445,3 +502,4 @@ if prompt:
                 "content": assistant_response,
             })
             save_chat_history(st.session_state.messages)
+

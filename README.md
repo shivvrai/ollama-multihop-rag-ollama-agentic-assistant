@@ -95,7 +95,79 @@ streamlit run app.py
 ```
 Open `http://localhost:8501` in your browser.
 
-### 6. Run the Evaluation Ablation Harness
+---
+
+## 🌐 Deployment Guide
+
+This project can be deployed across multiple environments:
+
+### Option 1: Streamlit Community Cloud (Free Hosted Web App)
+
+Streamlit Community Cloud provides free public hosting for your Streamlit applications:
+
+1. **Fork or Push to GitHub**: Ensure this repository is on your GitHub account (`https://github.com/shivvrai/ollama-multihop-rag-ollama-agentic-assistant`).
+2. **Deploy on Streamlit**:
+   - Go to [share.streamlit.io](https://share.streamlit.io) and log in with GitHub.
+   - Click **"Create app"** → **"I already have an app"**.
+   - Select your repository: `shivvrai/ollama-multihop-rag-ollama-agentic-assistant`.
+   - Branch: `main`
+   - Main file path: `app.py`
+   - App URL: Choose your custom subdomain (e.g. `agentic-rag-assistant.streamlit.app`).
+3. **Connecting Ollama to Streamlit Cloud**:
+   *Streamlit Community Cloud runs in a sandboxed container without a dedicated GPU to run local 3GB model weights. To connect your cloud app to an Ollama instance:*
+   - **Method A (Free Cloudflare Tunnel - Recommended)**:
+     On your PC or any machine running Ollama, run:
+     ```bash
+     cloudflared tunnel --url http://localhost:11434
+     ```
+     Copy the generated public URL (e.g. `https://xxxx.trycloudflare.com`).
+     In Streamlit Cloud's **App Settings → Secrets**, add:
+     ```toml
+     OLLAMA_HOST = "https://xxxx.trycloudflare.com"
+     ```
+     *(You can also paste this tunnel URL directly into the app's sidebar under **🌐 Cloud & Deployment**)*.
+   - **Method B (Cloud GPU / VPS)**:
+     Point `OLLAMA_HOST` to your hosted Ollama server (e.g. RunPod, Vast.ai, Modal, or AWS EC2).
+
+---
+
+### Option 2: Docker & Docker Compose (One-Command Full Stack)
+
+Run both the Ollama server and the Streamlit web app in containerized isolation:
+
+```bash
+# 1. Build and run containers
+docker compose up -d --build
+
+# 2. Pull required models into the Ollama container
+docker exec -it agentic_rag_ollama ollama pull llama3.2
+docker exec -it agentic_rag_ollama ollama pull nomic-embed-text
+
+# 3. Access the web interface
+# Open http://localhost:8501
+```
+
+---
+
+### Option 3: Local Developer Deployment
+
+```bash
+# 1. Start Ollama and download models
+ollama serve
+ollama pull llama3.2
+ollama pull nomic-embed-text
+
+# 2. Install Python dependencies
+pip install -r requirements.txt
+
+# 3. Launch the app
+streamlit run app.py
+```
+Open `http://localhost:8501` in your browser.
+
+---
+
+### 4. Run Evaluation Ablations
 To evaluate all 4 configurations on the 500-question HotpotQA validation subset:
 ```bash
 # Full 500-question evaluation
